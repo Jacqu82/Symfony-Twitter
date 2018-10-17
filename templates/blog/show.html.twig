@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <p>Title: {{ post.title }}</p>
+    <p>Text: {{ post.text }}</p>
+    <p>Date: {{ post.date|date('d.m.Y H:i:s') }}</p>
+    <p>{{ hello_message }}</p>
+    <a href="{{ path('blog_index') }}">Back</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog index{% endblock %}
+
+{% block body %}
+    {% for id, post in posts %}
+        <p>Id: {{ id }}</p>
+        <p><a href="{{ path('blog_show', {id: id}) }}">Title: {{ post.title }}</a></p>
+        <p>Text: {{ post.text }}</p>
+        <p>Date: {{ post.date|date('d.m.Y H:i:s') }}</p>
+        <p>{{ 1123|price }}</p>
+        <hr>
+    {% endfor %}
+{% endblock %}
