@@ -40,7 +40,7 @@ class AppFixtures extends Fixture
             $manager->persist($microPost);
         }
 
-        //$manager->flush();
+        $manager->flush();
     }
 
     private function loadUsers(ObjectManager $manager)
@@ -55,6 +55,7 @@ class AppFixtures extends Fixture
                 'qwerty'
             )
         );
+        $user->setCreatedAt(new \DateTime());
 
         $manager->persist($user);
         $manager->flush();

@@ -81,7 +81,7 @@ class MicroPostController extends AbstractController
         $this->entityManager->remove($microPost);
         $this->entityManager->flush();
 
-        $this->flashBag->add('danger', 'Micro post was deleted');
+        $this->flashBag->add('error', 'Micro post was deleted');
 
         return $this->redirectToRoute('micro_post_index');
     }

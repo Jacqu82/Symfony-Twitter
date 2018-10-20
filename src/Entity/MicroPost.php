@@ -19,6 +19,12 @@ class MicroPost
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="microPosts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=280)
      * @Assert\NotBlank()
      * @Assert\Length(min=10)
@@ -55,6 +61,18 @@ class MicroPost
     public function setTime(\DateTimeInterface $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
