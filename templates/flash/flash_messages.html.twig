@@ -1,0 +1,20 @@
+{% if app.session.flashBag.has('success') %}
+    <div class="container fixed-alert alert alert-success" role="alert">
+        {{ app.session.flashBag.get('success')[0]|raw }}
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.has('error') %}
+    <div class="container fixed-alert alert alert-danger" role="alert">
+        {{ app.session.flashBag.get('error')[0]|raw }}
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.has('warning') %}
+    <div class="container fixed-alert alert alert-warning" role="alert">
+        {{ app.session.flashBag.get('warning')[0]|raw }}
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+{% endif %}
