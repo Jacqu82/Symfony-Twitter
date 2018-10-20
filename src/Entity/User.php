@@ -16,6 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, \Serializable
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -61,6 +64,12 @@ class User implements UserInterface, \Serializable
     private $fullName;
 
     /**
+     * @var array
+     * @ORM\Column(type="simple_array")
+     */
+    private $roles;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -68,6 +77,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->microPosts = new ArrayCollection();
+        $this->roles = [self::ROLE_USER];
     }
 
     public function getId(): ?int
@@ -113,9 +123,14 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return [
-            'ROLE_USER'
-        ];
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function getSalt()

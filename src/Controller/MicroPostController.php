@@ -6,6 +6,7 @@ use App\Entity\MicroPost;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,6 +52,8 @@ class MicroPostController extends AbstractController
      */
     public function edit(MicroPost $microPost, Request $request)
     {
+        $this->denyAccessUnlessGranted('edit', $microPost);
+
         $form = $this->createForm(MicroPostType::class, $microPost);
         $form->handleRequest($request);
 
@@ -78,6 +81,8 @@ class MicroPostController extends AbstractController
      */
     public function delete(MicroPost $microPost)
     {
+        $this->denyAccessUnlessGranted('delete', $microPost);
+
         $this->entityManager->remove($microPost);
         $this->entityManager->flush();
 
@@ -88,11 +93,13 @@ class MicroPostController extends AbstractController
 
     /**
      * @Route("/add", name="micro_post_add")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function add(Request $request)
     {
         $microPost = (new MicroPost())
-            ->setTime(new \DateTime());
+            ->setTime(new \DateTime())
+            ->setUser($this->getUser());
 
         $form = $this->createForm(MicroPostType::class, $microPost);
         $form->handleRequest($request);

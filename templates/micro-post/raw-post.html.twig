@@ -1,11 +1,16 @@
 <div class="media text-muted pt-3">
-    <img data-src="holder.js/32x32?text=MJ&bg=e83e8c&fg=fff&size=8" alt="" class="mr-2 rounded">
+    {% set initials = post.user.fullName|split(' ') %}
+    <img data-src="holder.js/32x32?text={{ attribute(initials, 0)|first }}{{ attribute(initials, 1)|first }}&bg=e83e8c&fg=fff&size=8" alt="" class="mr-2 rounded">
     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-        <span class="d-block"><strong class="text-gray-dark">@username</strong> <small>· {{ post.time|date('d.m.Y H:i:s') }}</small></span>
+        <span class="d-block"><strong class="text-gray-dark">{{ post.user.username }}</strong> <small>· {{ post.time|date('d.m.Y H:i:s') }}</small></span>
         {{ post.text }}
         <small class="d-block text-right mt-3">
-            <a href="{{ path('micro_post_edit', {id: post.id}) }}">Edit</a>
-            <a href="{{ path('micro_post_delete', {id: post.id}) }}">Delete</a>
+            {% if is_granted('edit', post) %}
+                <a href="{{ path('micro_post_edit', {id: post.id}) }}">Edit</a>
+            {% endif %}
+            {% if is_granted('delete', post) %}
+                <a href="{{ path('micro_post_delete', {id: post.id}) }}">Delete</a>
+            {% endif %}
         </small>
     </p>
 </div>

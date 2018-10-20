@@ -20,7 +20,7 @@ class MicroPost
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="microPosts")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
 
@@ -70,7 +70,7 @@ class MicroPost
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser($user): self
     {
         $this->user = $user;
 
