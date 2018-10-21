@@ -32,6 +32,32 @@ class User implements UserInterface, \Serializable
     private $microPosts;
 
     /**
+     * @ORM\ManyToMany(targetEntity="MicroPost", mappedBy="likedBy")
+     * @ORM\JoinTable(name="post_likes",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")})
+     */
+    private $postsLiked;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="following")
+     */
+    private $followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="followers")
+     * @ORM\JoinTable(name="following",
+     *     joinColumns={
+     *         @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *         @ORM\JoinColumn(name="following_user_id", referencedColumnName="id")
+     *     }
+     * )
+     */
+    private $following;
+
+    /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=5, max=50)
@@ -78,6 +104,9 @@ class User implements UserInterface, \Serializable
     {
         $this->microPosts = new ArrayCollection();
         $this->roles = [self::ROLE_USER];
+        $this->postsLiked = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+        $this->following = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +251,88 @@ class User implements UserInterface, \Serializable
             if ($microPost->getUser() === $this) {
                 $microPost->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|MicroPost[]
+     */
+    public function getPostsLiked(): ArrayCollection
+    {
+        return $this->postsLiked;
+    }
+
+    public function addPostsLiked(MicroPost $postsLiked): self
+    {
+        if (!$this->postsLiked->contains($postsLiked)) {
+            $this->postsLiked[] = $postsLiked;
+            $postsLiked->addLikedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostsLiked(MicroPost $postsLiked): self
+    {
+        if ($this->postsLiked->contains($postsLiked)) {
+            $this->postsLiked->removeElement($postsLiked);
+            $postsLiked->removeLikedBy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|User[]
+     */
+    public function getFollowers(): ArrayCollection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(User $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers[] = $follower;
+            $follower->addFollowing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(User $follower): self
+    {
+        if ($this->followers->contains($follower)) {
+            $this->followers->removeElement($follower);
+            $follower->removeFollowing($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|User[]
+     */
+    public function getFollowing(): ArrayCollection
+    {
+        return $this->following;
+    }
+
+    public function addFollowing(User $following): self
+    {
+        if (!$this->following->contains($following)) {
+            $this->following[] = $following;
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(User $following): self
+    {
+        if ($this->following->contains($following)) {
+            $this->following->removeElement($following);
         }
 
         return $this;

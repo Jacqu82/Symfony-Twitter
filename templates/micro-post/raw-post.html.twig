@@ -2,7 +2,7 @@
     {% set initials = post.user.fullName|split(' ') %}
     <img data-src="holder.js/32x32?text={{ attribute(initials, 0)|first }}{{ attribute(initials, 1)|first }}&bg=e83e8c&fg=fff&size=8" alt="" class="mr-2 rounded">
     <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-        <span class="d-block"><strong class="text-gray-dark">{{ post.user.username }}</strong> <small>· {{ post.time|date('d.m.Y H:i:s') }}</small></span>
+        <span class="d-block"><strong class="text-gray-dark">{{ post.user.username }}</strong> <small>· {{ post.time|date('Y-m-d H:i:s')|ago }}</small></span>
         {{ post.text }}
         <small class="d-block text-right mt-3">
             {% if is_granted('edit', post) %}
