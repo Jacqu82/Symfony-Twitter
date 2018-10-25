@@ -47,3 +47,7 @@ services:
 #    App\Service\Greeting:
 #        arguments:
 #            $message: '%hello_message%'
+
+    App\EventListener\LikeNotificationSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
