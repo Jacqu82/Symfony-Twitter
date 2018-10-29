@@ -25,8 +25,20 @@ class NotificationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('n')
             ->select('COUNT(n)')
             ->andWhere('n.user = :user')
+            ->andWhere('n.seen = 0')
             ->setParameter('user', $user)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function markAllAsReadByUser(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->update('App\Entity\Notification', 'n')
+            ->set('n.seen', true)
+            ->andWhere('n.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->execute();
     }
 }
