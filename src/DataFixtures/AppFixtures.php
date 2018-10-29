@@ -19,6 +19,13 @@ class AppFixtures extends Fixture
             'roles' => [User::ROLE_ADMIN, User::ROLE_USER]
         ],
         [
+            'username' => 'jacek1',
+            'email' => 'jacqu25@wp.pl',
+            'password' => 'qwerty',
+            'fullName' => 'Jacek Placek',
+            'roles' => [User::ROLE_USER]
+        ],
+        [
             'username' => 'rob_smith',
             'email' => 'rob_smith@smith.com',
             'password' => 'rob12345',
@@ -85,7 +92,8 @@ class AppFixtures extends Fixture
                 ->setUsername($userData['username'])
                 ->setFullName($userData['fullName'])
                 ->setEmail($userData['email'])
-                ->setRoles($userData['roles']);
+                ->setRoles($userData['roles'])
+                ->setEnabled(true);
             $user
                 ->setPassword($this->passwordEncoder->encodePassword($user, $userData['password']))
                 ->setCreatedAt(new \DateTime());
