@@ -59,6 +59,11 @@ class User implements AdvancedUserInterface, \Serializable
     private $following;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserPreferences", cascade={"persist"})
+     */
+    private $preferences;
+
+    /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min=5, max=50)
@@ -394,5 +399,20 @@ class User implements AdvancedUserInterface, \Serializable
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * @return UserPreferences|null
+     */
+    public function getPreferences(): UserPreferences
+    {
+        return $this->preferences;
+    }
+
+    public function setPreferences($preferences): self
+    {
+        $this->preferences = $preferences;
+
+        return $this;
     }
 }
