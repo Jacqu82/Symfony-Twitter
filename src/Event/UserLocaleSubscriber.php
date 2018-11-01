@@ -16,7 +16,7 @@ class UserLocaleSubscriber implements EventSubscriberInterface
     {
         $this->session = $session;
     }
-    
+
     public static function getSubscribedEvents()
     {
         return [
