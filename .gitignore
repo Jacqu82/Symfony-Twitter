@@ -17,4 +17,6 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 /package.json
-.idea
+/symfony.lock
+/composer.lock
+/.idea
