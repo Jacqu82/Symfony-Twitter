@@ -17,7 +17,9 @@ class MailerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $swiftMailer->expects($this->once())->method('send')
+        $swiftMailer
+            ->expects($this->once())
+            ->method('send')
             ->with($this->callback(function ($subject) {
                 $messageStr = (string)$subject;
                 //dump($messageStr);
@@ -39,7 +41,5 @@ class MailerTest extends TestCase
 
         $mailer = new Mailer($swiftMailer, $twig, 'emial@email.com');
         $mailer->sendConfirmationEmail($user);
-
-
     }
 }

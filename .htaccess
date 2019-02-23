@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    Options +SymLinksIfOwnerMatch
+    RewriteEngine On
+	RewriteBase /
+	
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+    # Explicitly disable rewriting for front controllers
+    RewriteRule ^/public/index.php - [L]
+
+    RewriteRule ^angular/(.*)$ /public/angular/$1  [QSA,L]
+    RewriteRule ^bootstrap/(.*)$ /public/bootstrap/$1  [QSA,L]
+	RewriteRule ^bower_components/(.*)$ /public/bower_components/$1  [QSA,L]
+    RewriteRule ^bundles/(.*)$ /public/bundles/$1  [QSA,L]
+    RewriteRule ^ckeditor/(.*)$ /public/ckeditor/$1  [QSA,L]
+	RewriteRule ^css/(.*)$ /public/css/$1  [QSA,L]
+	RewriteRule ^content/(.*)$ /public/content/$1  [QSA,L]
+	RewriteRule ^fonts/(.*)$ /public/fonts/$1  [QSA,L]
+	RewriteRule ^img/(.*)$ /public/img/$1  [QSA,L]
+	RewriteRule ^js/(.*)$ /public/js/$1  [QSA,L]
+	RewriteRule ^scss/(.*)$ /public/scss/$1  [QSA,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ /public/index.php [QSA,L]
+</IfModule>
